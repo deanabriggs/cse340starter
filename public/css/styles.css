@@ -9,10 +9,10 @@
 #wrapper {
   width: 80%;
   background: white;
-  margin: 5px auto;
-  padding: 20px 10px;
+  margin: 20px auto;
+  padding: 30px 10px 5px 10px;
   border-radius: 8px;
-  border: 4px solid rgb(13, 197, 221);
+  border: 4px solid deepskyblue;
   position: relative;
   max-width: 1000px;
 }
@@ -24,13 +24,17 @@ p, li, a, figcaption, button {
   font-style: normal;
   font-variation-settings: "wdth" 100;
   text-decoration: none;
-  list-style-type: none;
+  list-style: none;
 }
 
 h1, h2, h3 {
   font-family: "PT Serif", serif;
-  font-weight: 700;
+  font-weight: 900;
   font-style: normal;
+}
+
+h3 {
+  font-size: x-large;
 }
 
 body {
@@ -89,4 +93,105 @@ nav a {
   margin: 0 auto;
   width: 75%;
   height: auto;
+}
+
+.highlights{
+  position: absolute;
+  top:250px;
+  left: 10%;
+  color: deepskyblue;
+  background-color: rgb(255, 255, 255, 80%);
+}
+
+.highlights h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.highlights li {
+  font-size: larger;
+  font-weight: 600;
+  margin: 3px 0;
+}
+
+.highlights ul {
+  margin: 0;
+  padding: 0;
+}
+
+.action-button {
+  padding: 12px 30px;
+  background: deepskyblue;
+  border: 2px solid lightslategray;
+  cursor: pointer;
+  align-self: center;
+  font-weight: 800;
+  margin-top: 20px;
+  border-radius: 2px;
+}
+
+.segments{
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 35px;
+}
+
+.upgrades {
+  display: inline-block;
+  width: 50%;
+}
+
+.upgrade-pics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-content: center;
+}
+
+.upgrade-pics figure {
+  background-color: deepskyblue;
+  text-align: center;
+  margin: 10px 0 20px 0;
+}
+
+.upgrade-pics img {
+  padding: 5px;
+  height: 95%;
+  width: auto;
+  cursor: pointer;
+}
+
+.upgrade-pics figcaption {
+  background-color: white;
+  text-decoration: underline;
+  color: #007bff;
+  margin-top: auto;
+  padding: 3px;
+  font-weight: bold;
+  font-size: large;
+  cursor: pointer;
+}
+
+.reviews {
+  display: inline-block;
+  width: 50%;
+}
+
+.reviews ul {
+    margin: 10px;
+    padding-left: 0;
+}
+
+.reviews li {
+  list-style-type: disc;
+  margin: 5px 10px;
+  padding: 12px 0px;
+  font-size: larger;
+  font-weight: 500;
+}
+
+/******* footer.ejs *****************************/
+footer {
+  padding-top: 30px;
 }
