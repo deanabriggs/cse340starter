@@ -1,8 +1,106 @@
 @media (min-width: 700px) {
+    
     body {
         max-width: 1260px;
         margin: 0 auto;
     }
 
+    /******* layout.ejs / general *****************************/
+    #wrapper {
+        width: 80%;
+        background: white;
+        margin: 20px auto;
+        padding: 30px 10px 5px 10px;
+        border-radius: 8px;
+        border: 4px solid deepskyblue;
+        max-width: 1000px;
+    }
+    
+    p, li, a, figcaption, button {
+        font-weight: 400;
+    }
 
+    h3 {
+        font-size: x-large;
+    }
+    
+    body {
+        background-image: url("../images/site/checkerboard.jpg");
+    }
+    
+    /******* header.ejs *****************************/
+    #tools a {
+        font-size: large;
+        top:20px;
+        right: 15px;
+    }
+    
+    /********* navigation.ejs ***********************/
+    nav {
+        width: 100%;
+        margin: 0;
+    }
+    
+    nav ul {
+        padding: 10px 10%;
+        max-width: 1000px;
+    }
+    
+    /********* index.ejs *****************************/
+    .hero-msg {
+        font-size: xx-large;
+    }
+    
+    .highlights{
+        top:250px;
+        left: 10%;
+    }
+    
+    .highlights h2 {
+        font-size: x-large;
+    }
+    
+    .highlights li {
+        font-size: larger;
+    }
+    
+    .action-button {
+        padding: 12px 30px;
+        font-size: large;
+        margin-top: 20px;
+    }
+    
+    .segments{
+        display: flex;
+        align-items: flex-start;
+        gap: 35px;
+    }
+    
+    .upgrades {
+        order: 1;
+        display: inline-block;
+        width: 50%;
+    }
+
+    .upgrade-pics figcaption {
+        font-size: large;
+    }
+    
+    .reviews {
+        order: 2;
+        display: inline-block;
+        width: 50%;
+    }
+    
+    .reviews li {
+        padding: 12px 0px;
+        font-size: larger;
+        font-weight: 500;
+    }
+    
+    /******* footer.ejs *****************************/
+    footer {
+        padding-top: 30px;
+        font-size: medium;
+    }
 }
