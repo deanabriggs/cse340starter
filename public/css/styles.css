@@ -95,6 +95,7 @@ nav a {
   position: absolute;
   top: 160px;
   left: 7%;
+  padding: 0 0 5px 0;
   color: deepskyblue;
   background-color: rgb(255, 255, 255, 80%);
 }
@@ -120,7 +121,6 @@ nav a {
   padding: 6px 15px;
   background: deepskyblue;
   border: 2px solid lightslategray;
-  cursor: pointer;
   align-self: center;
   font-size: small;
   font-weight: 800;
@@ -147,16 +147,22 @@ nav a {
 }
 
 .upgrade-pics figure {
-  background-color: deepskyblue;
   text-align: center;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 25px 0;
+}
+
+.img-frame {
+  display: block;
+  background-color: deepskyblue;
+  border: 2px solid lightslategray;
+  border-radius: 2px;
+  height: 100%;
 }
 
 .upgrade-pics img {
   padding: 5px;
   height: 95%;
   width: auto;
-  cursor: pointer;
 }
 
 .upgrade-pics figcaption {
@@ -167,7 +173,6 @@ nav a {
   padding: 3px;
   font-weight: bold;
   font-size: small;
-  cursor: pointer;
 }
 
 .reviews {

@@ -68,6 +68,7 @@
         padding: 12px 30px;
         font-size: large;
         margin-top: 20px;
+        cursor: pointer;
     }
     
     .segments{
@@ -82,8 +83,13 @@
         width: 50%;
     }
 
+    .upgrade-pics img {
+        cursor: pointer;
+    }
+
     .upgrade-pics figcaption {
         font-size: large;
+        cursor: pointer;
     }
     
     .reviews {
@@ -94,7 +100,7 @@
     
     .reviews li {
         padding: 12px 0px;
-        font-size: larger;
+        font-size: large;
         font-weight: 500;
     }
     
