@@ -16,7 +16,6 @@
 
 p, li, a, figcaption, button {
   font-family: "Roboto", serif;
-  font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
   font-variation-settings: "wdth" 100;
@@ -37,7 +36,6 @@ h3 {
 /******* header.ejs *****************************/
 #top-header {
   font-family: "Roboto", serif;
-  font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
@@ -63,7 +61,7 @@ h3 {
 /********* navigation.ejs ***********************/
 nav {
   display: block;
-  width: clac(100% +20px);
+  width: calc(100% + 20px);
   background: black;
   margin-left: -10px;
   margin-right: -10px;
