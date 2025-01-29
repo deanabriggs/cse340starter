@@ -1,0 +1,10 @@
+<% if (title) { %>
+    <h1 class="invTitle"><%= title %></h1>
+    <% } else {
+        res.redirect("/")
+    } %>
+    <div id="errorHero">
+        <img  src="/images/site/lost.jpg" alt="Lost in parking lot">
+        <p><%- message %></p>
+    </div>
+    

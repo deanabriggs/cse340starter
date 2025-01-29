@@ -249,3 +249,14 @@ footer {
   text-align: center;
   padding: 20px;
 }
+
+/****** error.ejs *************/
+#errorHero {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#errorHero img {
+  border-radius: 2px;
+}
