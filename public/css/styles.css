@@ -199,3 +199,53 @@ footer {
   padding-top: 20px;
   font-size: small;
 }
+
+/****** utilities/index.js for inventory ********/
+#inv-display {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: baseline;
+}
+
+#inv-display li {
+  margin: 15px;
+  margin-left: 0;
+  text-align: center;
+  width: 300px;
+  border-radius: 2px;
+}
+
+#inv-display img {
+  width: 100%;
+  border-radius: 2px;
+}
+
+.namePrice h2 {
+  margin: 0;
+  margin-bottom: 3px;
+  color: #1100ff;
+  font-weight: bold;
+  font-size: large;
+}
+
+.namePrice{
+  margin: 0;
+}
+
+.namePrice span{
+  margin-top: 7px;
+  font-weight: bold;
+}
+
+.namePrice hr {
+  margin: 0;
+}
+
+.invTitle {
+  text-transform: capitalize;
+  text-align: center;
+  padding: 20px;
+}
