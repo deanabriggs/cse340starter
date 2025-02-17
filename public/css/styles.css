@@ -250,6 +250,29 @@ footer {
   padding: 20px;
 }
 
+/****** utilities/index.js for item detail ********/
+
+#item-display img {
+  min-width: 90%;
+  margin: auto;
+}
+
+#imgSm {
+  display: block;
+}
+
+#imgLg {
+  display: none;
+}
+
+#item-display {
+  padding: 10px 20px;
+}
+
+#item-display h2 {
+  color: rgb(10, 125, 202);
+}
+
 /****** error.ejs *************/
 #errorHero {
   display: block;

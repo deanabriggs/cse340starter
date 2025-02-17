@@ -109,4 +109,31 @@
         padding-top: 30px;
         font-size: medium;
     }
+
+    /****** utilities/index.js for item detail ********/
+    #item-display {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+    }
+    
+    #item-display img {
+        max-width: 50%;
+        margin: auto;
+        border-radius: 5px;
+    }
+
+    #imgSm {
+        display: none;
+    }
+    
+    #imgLg {
+        display: block;
+        grid-column: 1;
+    }
+
+    #item-details {
+        grid-column: 2;
+        padding: 10px;
+    }
 }
