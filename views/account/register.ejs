@@ -1,6 +1,12 @@
 <h1 class="acctTitle"><%= title %></h1>
 
-<%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
 
 <div class="form-frame">
     <form class="form" action="/account/register" method="POST">
@@ -12,8 +18,8 @@
         <input type="email" name="account_email" id="account_email" required>
         <label for="account_password">Password:</label>
         <input type="password" name="account_password" id="account_password" 
-            pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}" 
-            title="Password must include a capital letter, a number, and a special character (@$!%*?&)."
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" 
+            title="Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character."
             required>
         <span id="pwBtn" tabindex="0">Show Password</span>
         <button type="submit">Register</button>
