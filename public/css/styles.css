@@ -5,6 +5,14 @@
   box-sizing: border-box;
 }
 
+/******* baseController.js ******************************/
+.notice {
+  background-color: yellow;
+  border: 1px solid black;
+  font-weight: bold;
+  padding: 10px;
+}
+
 /******* layout.ejs / general *****************************/
 #wrapper {
   width: 100%;
@@ -14,7 +22,7 @@
   min-width: 344px;
 }
 
-p, li, a, figcaption, button {
+p, li, a, figcaption, button, label, input, span {
   font-family: "Roboto", serif;
   font-weight: 300;
   font-style: normal;
@@ -56,6 +64,16 @@ h3 {
   position: absolute;
   top: 10px;
   right: 15px;
+}
+
+/********* footer.ejs ***************************/
+.copyright {
+  margin-bottom: 0;
+  padding: 3px 0;
+}
+
+#error-link {
+  text-decoration: underline;
 }
 
 /********* navigation.ejs ***********************/
@@ -244,7 +262,7 @@ footer {
   margin: 0;
 }
 
-.invTitle {
+.invTitle, .acctTitle {
   text-transform: capitalize;
   text-align: center;
   padding: 20px;
@@ -283,4 +301,76 @@ footer {
 
 #errorHero img {
   border-radius: 2px;
+}
+
+/******* login.ejs *************/
+.form-frame {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 3px solid lightslategray;
+  border-radius: 5px;
+  background-color: rgb(26, 46, 82);
+  color: white;
+  justify-self: center;
+}
+
+.form {
+  display: grid;
+  width: 50vw;
+  min-width: 250px;
+  max-width: 500px;
+}
+
+.form input {
+  border-radius: 5px;
+  width: 85%;
+  min-height: 40px;
+  justify-self: center;
+  border: 2px solid deepskyblue;
+  padding: 5px;
+  font-size: larger;
+}
+
+.form label {
+  min-width: 85%;
+  padding-left: 4px;
+  justify-self: center;
+  margin-top: 20px;
+  margin-bottom: 3px;
+}
+
+.form button {
+  justify-self: center;
+  margin-top: 30px;
+  padding: 10px 30px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  border: 2px solid deepskyblue;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#pwBtn {
+  padding: 3px 6px;
+  border-radius: 5px;
+  border: .5px solid lightslategray;
+  background-color: deepskyblue;
+  color: black;
+  justify-self: center;
+  margin-top: 5px;
+  font-weight:400;
+  font-size: smaller;
+}
+
+.form-frame p {
+  justify-self: center;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.form-frame a {
+  text-decoration: underline;
+  color: white;
+  justify-self: center;
+  font-weight: bold;
 }

@@ -1,0 +1,16 @@
+<h1 class="acctTitle"><%= title %></h1>
+
+<%- messages() %>
+
+<div class="form-frame">
+    <form class="form" action="/account/login" method="GET">
+        <label for="account_email">Email:</label>
+        <input type="email" name="account_email" id="account_email">
+        <label for="account_password">Password:</label>
+        <input type="password" name="account_password" id="account_password">
+        <button type="submit">Login</button>
+    </form>
+    <p id="sign-up" >No account?
+        <a href="./register">Sign-up </a>
+    </p>
+</div>

@@ -1,0 +1,21 @@
+<h1 class="acctTitle"><%= title %></h1>
+
+<%- messages() %>
+
+<div class="form-frame">
+    <form class="form" action="/account/register" method="POST">
+        <label for="account_firstname">First Name:</label>
+        <input type="text" name="account_firstname" id="account_firstname" required>
+        <label for="account_lastname">Last Name:</label>
+        <input type="text" name="account_lastname" id="account_lastname" required>
+        <label for="account_email">Email:</label>
+        <input type="email" name="account_email" id="account_email" required>
+        <label for="account_password">Password:</label>
+        <input type="password" name="account_password" id="account_password" 
+            pattern="(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}" 
+            title="Password must include a capital letter, a number, and a special character (@$!%*?&)."
+            required>
+        <span id="pwBtn" tabindex="0">Show Password</span>
+        <button type="submit">Register</button>
+    </form>
+</div>
