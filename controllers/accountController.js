@@ -10,6 +10,7 @@ async function buildLogin(req, res, next) {
     title: "Login",
     nav,
     errors: null,
+    notice: req.flash("notice")[0] || null,
   });
 }
 
@@ -22,6 +23,7 @@ async function buildRegister(req, res, next) {
     title: "Register",
     nav,
     errors: null,
+    notice: req.flash("notice")[0] || null,
   });
 }
 
@@ -48,18 +50,53 @@ async function processAcctReg(req, res) {
       "notice",
       `Congratulations, you're registered ${account_firstname}. Please log in.`
     );
-    res.status(201).render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-    });
+    res.redirect("/account/login");
   } else {
     req.flash("notice", "Sorry, the registration failed.");
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      errors: null,
+      notice: req.flash("notice")[0] || null,
     });
   }
 }
 
-module.exports = { buildLogin, buildRegister, processAcctReg };
+/******************************
+ * Process Login
+ ******************************/
+async function processLogin(req, res) {
+  const { account_email, account_password } = req.body;
+  let nav = await utilities.getNav();
+
+  try {
+    const loginSuccess = await accountModel.checkPasswordMatch(
+      account_email,
+      account_password
+    );
+
+    if (!loginSuccess) {
+      req.flash("notice", "Sorry, login failed.");
+      return res.status(401).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+        notice: req.flash("notice")[0] || null,
+      });
+    }
+    req.flash("notice", `You're logged in!`);
+    res.redirect("/");
+  } catch (error) {
+    req.flash("notice", "An error occurred. Please try again.");
+    res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+      notice: req.flash("notice")[0] || null,
+    });
+  }
+}
+
+module.exports = { buildLogin, buildRegister, processAcctReg, processLogin };
