@@ -1,5 +1,6 @@
+const { validationResult } = require("express-validator");
 const invModel = require("../models/inventory-model");
-const utilities = require("../utilities/");
+const utilities = require("../utilities");
 
 const invCont = {};
 
@@ -33,6 +34,78 @@ invCont.buildByInvId = async function (req, res, next) {
     nav,
     details,
   });
+};
+
+/* ***************************
+ *  Build management view
+ * ************************** */
+invCont.buildMgmt = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  res.render("./inventory/management", {
+    title: "Inventory Management",
+    nav,
+    notice: req.flash("notice")[0] || null,
+  });
+};
+
+/* ***************************
+ *  Build Add Classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  console.log(`start buildAddClassification`); // for testing
+  let nav = await utilities.getNav();
+  res.render("./inventory/add-classification", {
+    title: "Add New Classification",
+    nav,
+    notice: req.flash("notice"),
+    errors: null,
+  });
+};
+
+/* ***************************
+ *  Process Adding New Classification
+ * ************************** */
+invCont.processNewClassification = async function (req, res) {
+  console.log(`start processNewClassification`); // for testing
+
+  let nav = await utilities.getNav();
+  const { classification_name } = req.body;
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    // if there are errors (not empty)
+    req.flash("errors", errors.array());
+    return res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: errors.array(),
+      classification_name,
+      notice: req.flash("notice")[0] || null,
+    });
+  }
+
+  // Add the new classification
+  const result = await invModel.addNewClassification(classification_name);
+
+  if (result) {
+    req.flash(
+      "notice",
+      `"${classification_name}" has been added successfully as a category!`
+    );
+    res.redirect("/inv/add-classification");
+  } else {
+    req.flash(
+      "notice",
+      `Failed to add "${classification_name}". Please try again.`
+    );
+    res.status(501).render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      notice: req.flash("notice")[0] || null,
+      classification_name,
+      errors: null,
+    });
+  }
 };
 
 module.exports = invCont;

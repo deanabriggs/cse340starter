@@ -43,8 +43,46 @@ async function getItemByInvId(inv_id) {
   }
 }
 
+/* ***************************
+ *  Add New Classificiation
+ * ************************** */
+async function addNewClassification(classification_name) {
+  console.log("addNewClassification starts..."); // for testing
+  try {
+    const sql = `
+      INSERT INTO public.classification (classification_name) 
+      VALUES ($1) 
+      RETURNING *;
+    `;
+    console.log(`addNewClassification results... ${sql}`); // for testing
+    return await pool.query(sql, [classification_name]);
+  } catch (error) {
+    console.log(`addNewClassification error results... ${error}`); // for testing
+    return "Classification could not be added.";
+  }
+}
+
+/* ***************************
+ * Verify Classification Hasn't already been added
+ * ***************************/
+async function checkExistingClassification(classification_name) {
+  console.log("checkExistingClassification starts..."); // for testing
+  try {
+    const sql =
+      "SELECT * FROM public.classification WHERE classification_name = $1";
+    const classification = await pool.query(sql, [classification_name]);
+    console.log(`checkExistingClassification results... ${classification}`); // for testing
+    return classification.rowCount > 0;
+  } catch (error) {
+    console.log(`checkExistingClassification error results... ${error}`); // for testing
+    return error.message;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getItemByInvId,
+  addNewClassification,
+  checkExistingClassification,
 };

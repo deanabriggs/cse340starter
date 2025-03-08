@@ -374,3 +374,16 @@ footer {
   justify-self: center;
   font-weight: bold;
 }
+
+.form h3 {
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  font-style: italic;
+  text-align: center;
+  padding: 2% 1%;
+}
+
+.menu-list a {
+  display: block;
+  padding: 1% 2%;
+}

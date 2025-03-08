@@ -1,0 +1,21 @@
+<h1 class="add-classification"><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<div class="form-frame">
+    <form class="form" action="/inv/add-classification" method="POST">
+        <h3>Only use alphabetic characters for classification</h3>
+        <label for="classification_name">New Classification:</label>
+        <input type="text" name="classification_name" id="classification_name" required
+            pattern="^[a-zA-Z]+$" title="Only alphabetic characters can be used.">
+        <button type="submit">Add Classification</button>
+    </form>
+</div>

@@ -6,6 +6,8 @@
  * Require Statements
  *************************/
 const session = require("express-session");
+const flash = require("connect-flash");
+const expressMessages = require("express-messages");
 const pool = require("./database");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
@@ -35,9 +37,9 @@ app.use(
 );
 
 // Express Messages Middleware
-app.use(require("connect-flash")());
-app.use(function (req, res, next) {
-  res.locals.messages = require("express-messages")(req, res);
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.messages = expressMessages(req, res);
   next();
 });
 
@@ -79,8 +81,10 @@ app.use(async (err, req, res, next) => {
   console.error(`Error at: "${req.originalUrl}": ${err.message}`);
   if (err.status == 404) {
     message = err.message;
+    console.error(err.stack);
   } else {
     message = "Oh no! There was a crash. Try something else?";
+    console.error(err.stack);
   }
   res.render("errors/error", {
     title: err.status || "Server Error",
