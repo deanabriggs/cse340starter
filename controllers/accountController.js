@@ -10,7 +10,6 @@ async function buildLogin(req, res, next) {
     title: "Login",
     nav,
     errors: null,
-    notice: req.flash("notice")[0] || null,
   });
 }
 
@@ -23,7 +22,6 @@ async function buildRegister(req, res, next) {
     title: "Register",
     nav,
     errors: null,
-    notice: req.flash("notice")[0] || null,
   });
 }
 
@@ -57,7 +55,6 @@ async function processAcctReg(req, res) {
       title: "Registration",
       nav,
       errors: null,
-      notice: req.flash("notice")[0] || null,
     });
   }
 }
@@ -82,7 +79,6 @@ async function processLogin(req, res) {
         nav,
         errors: null,
         account_email,
-        notice: req.flash("notice")[0] || null,
       });
     }
     req.flash("notice", `You're logged in!`);
@@ -94,7 +90,6 @@ async function processLogin(req, res) {
       nav,
       errors: null,
       account_email,
-      notice: req.flash("notice")[0] || null,
     });
   }
 }

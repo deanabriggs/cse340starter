@@ -44,7 +44,6 @@ invCont.buildMgmt = async function (req, res, next) {
   res.render("./inventory/management", {
     title: "Inventory Management",
     nav,
-    notice: req.flash("notice")[0] || null,
   });
 };
 
@@ -57,7 +56,6 @@ invCont.buildAddClassification = async function (req, res, next) {
   res.render("./inventory/add-classification", {
     title: "Add New Classification",
     nav,
-    notice: req.flash("notice"),
     errors: null,
   });
 };
@@ -80,7 +78,6 @@ invCont.processNewClassification = async function (req, res) {
       nav,
       errors: errors.array(),
       classification_name,
-      notice: req.flash("notice")[0] || null,
     });
   }
 
@@ -92,7 +89,7 @@ invCont.processNewClassification = async function (req, res) {
       "notice",
       `"${classification_name}" has been added successfully as a category!`
     );
-    res.redirect("/inv/add-classification");
+    res.redirect("/inv");
   } else {
     req.flash(
       "notice",
@@ -101,7 +98,6 @@ invCont.processNewClassification = async function (req, res) {
     res.status(501).render("./inventory/add-classification", {
       title: "Add New Classification",
       nav,
-      notice: req.flash("notice")[0] || null,
       classification_name,
       errors: null,
     });
