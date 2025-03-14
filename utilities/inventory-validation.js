@@ -16,6 +16,10 @@ invValidate.classificationRules = () => {
       .notEmpty()
       .isLength({ min: 1 })
       .withMessage("Please provide a valid classification name.")
+      .matches(/^[A-Za-z]+$/)
+      .withMessage(
+        "Must contain only letters (no spaces or special characters)"
+      )
       .custom(async (classification_name) => {
         const classificationExists =
           await inventoryModel.checkExistingClassification(classification_name);
@@ -40,8 +44,7 @@ invValidate.checkClassificationData = async (req, res, next) => {
       errors,
       title: "Add New Classification",
       nav,
-      classification_name: classification_name,
-      notice: req.flash("notice")[0] || null,
+      classification_name,
     });
 
     return;
