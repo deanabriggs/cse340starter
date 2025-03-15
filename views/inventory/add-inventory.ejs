@@ -1,0 +1,63 @@
+<h1 class="add-inventory"><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<div class="form-frame">
+    <form class="form" action="/inv/add-inventory" method="POST">
+        <label for="inv_make">Make:</label>
+        <input type="text" name="inv_make" id="inv_make" required value="<%= locals.inv_make %>"
+        pattern="^[A-Za-z][A-Za-z0-9 -]{2,}[A-Za-z]$"
+        title="Must be at least 3 characters and start and end with a letter">
+
+        <label for="inv_model">Model:</label>
+        <input type="text" name="inv_model" id="inv_model" required value="<%= locals.inv_model %>"
+        pattern="^[A-Za-z0-9 -.'/+]+$"
+        title="Must be at least 1 character">
+        
+        <label for="inv_year">Year:</label>
+        <input type="number" name="inv_year" id="inv_year" required value="<%= locals.inv_year %>"
+        pattern="^[0-9]{4}$"
+        title="Must be 4-digit year">
+        
+        <label for="inv_description">Description:</label>
+        <input type="text" name="inv_description" id="inv_description" required value="<%= locals.inv_description %>"
+        pattern="^[A-Za-z0-9 -.'/+]{12,}$"
+        title="Must be at least 12 characters">
+        
+        <label for="inv_image">Picture:</label>
+        <input type="image" name="inv_image" id="inv_image" value="<%= locals.inv_image %>">
+        
+        <label for="inv_thumbnail">Small Picture: </label>
+        <input type="image" name="inv_thumbnail" id="inv_thumbnail" value="<%= locals.inv_thumbnail %>">
+        
+        <label for="inv_price">Price:</label>
+        <input type="number" name="inv_price" id="inv_price" required value="<%= locals.inv_price %>"
+        pattern="^[1-9][0-9]{1,}$"
+        title="Enter only numbers (no special characters), can not start with a zero">
+        
+        <label for="inv_miles">Miles:</label>
+        <input type="number" name="inv_miles" id="inv_miles" required value="<%= locals.inv_miles %>"
+        pattern="^[0-9]{1,}$"
+        title="Enter only numbers (no special characters)">
+        
+        <label for="inv_color">Color:</label>
+        <input type="text" name="inv_color" id="inv_color" required value="<%= locals.inv_color %>"
+        pattern="^[A-Za-z][A-Za-z ]{1,}[A-Za-z]$"
+        title="Must be at least 3 characters and start and end with a letter (space ok, but no other special characters)">
+        
+        <label for="classification_id">Classification:</label>
+        <input type="text" name="classification_id" id="classification_id" required value="<%= locals.classification_id %>"
+        pattern=""
+        title="">
+        
+        <button type="submit">Add Vehicle</button>
+    </form>
+</div>

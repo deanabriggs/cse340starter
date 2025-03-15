@@ -19,18 +19,27 @@ router.get(
 // Route to build management view
 router.get("/", utilities.handleErrors(invController.buildMgmt));
 
-// Route to build management view
+// Route to build add-classification view
 router.get(
   "/add-classification",
   utilities.handleErrors(invController.buildAddClassification)
 );
 
-// Route to build management view
+// Route to post add-classification view
 router.post(
   "/add-classification",
   invValidate.classificationRules(),
   invValidate.checkClassificationData,
   utilities.handleErrors(invController.processNewClassification)
 );
+
+// Route to build add-inventory view
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(invController.buildAddClassification)
+);
+
+// Route to post add-inventory view
+// router.post("/add-inventory", "");
 
 module.exports = router;

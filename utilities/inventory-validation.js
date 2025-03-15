@@ -46,7 +46,6 @@ invValidate.checkClassificationData = async (req, res, next) => {
       nav,
       classification_name,
     });
-
     return;
   }
   next();

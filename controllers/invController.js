@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities");
 
@@ -68,18 +67,6 @@ invCont.processNewClassification = async function (req, res) {
 
   let nav = await utilities.getNav();
   const { classification_name } = req.body;
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    // if there are errors (not empty)
-    req.flash("errors", errors.array());
-    return res.render("./inventory/add-classification", {
-      title: "Add New Classification",
-      nav,
-      errors: errors.array(),
-      classification_name,
-    });
-  }
 
   // Add the new classification
   const result = await invModel.addNewClassification(classification_name);
