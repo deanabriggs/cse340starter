@@ -1,3 +1,5 @@
+// Interacts with the database (for GET & POST data)
+
 const pool = require("../database/");
 
 /* ***************************
@@ -47,17 +49,14 @@ async function getItemByInvId(inv_id) {
  *  Add New Classificiation
  * ************************** */
 async function addNewClassification(classification_name) {
-  console.log("addNewClassification starts..."); // for testing
   try {
     const sql = `
       INSERT INTO public.classification (classification_name) 
       VALUES ($1) 
       RETURNING *;
     `;
-    console.log(`addNewClassification results... ${sql}`); // for testing
     return await pool.query(sql, [classification_name]);
   } catch (error) {
-    console.log(`addNewClassification error results... ${error}`); // for testing
     return "Classification could not be added.";
   }
 }
@@ -66,16 +65,55 @@ async function addNewClassification(classification_name) {
  * Verify Classification Hasn't already been added
  * ***************************/
 async function checkExistingClassification(classification_name) {
-  console.log("checkExistingClassification starts..."); // for testing
   try {
     const sql =
       "SELECT * FROM public.classification WHERE classification_name = $1";
     const classification = await pool.query(sql, [classification_name]);
-    console.log(`checkExistingClassification results... ${classification}`); // for testing
     return classification.rowCount > 0;
   } catch (error) {
-    console.log(`checkExistingClassification error results... ${error}`); // for testing
     return error.message;
+  }
+}
+
+/* ***************************
+ *  Add New Inventory Item
+ * ************************** */
+async function addNewInventory(
+  inv_make,
+  inv_model,
+  inv_year,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_miles,
+  inv_color,
+  classification_id
+) {
+  console.log("addNewInventory starts..."); // for testing
+  try {
+    const sql = `
+      INSERT INTO public.inventory (inv_make, inv_model, inv_year, inv_description,
+        inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+      RETURNING *;
+    `;
+    console.log(`addNewInventory results... ${sql}`); // for testing
+    return await pool.query(sql, [
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    ]);
+  } catch (error) {
+    console.log(`addNewInventory error results... ${error}`); // for testing
+    return "Inventory Item could not be added.";
   }
 }
 
@@ -85,4 +123,5 @@ module.exports = {
   getItemByInvId,
   addNewClassification,
   checkExistingClassification,
+  addNewInventory,
 };

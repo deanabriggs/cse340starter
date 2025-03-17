@@ -29,17 +29,22 @@ router.get(
 router.post(
   "/add-classification",
   invValidate.classificationRules(),
-  invValidate.checkClassificationData,
+  invValidate.checkClassificationData, // ensures classification doesn't already exist
   utilities.handleErrors(invController.processNewClassification)
 );
 
 // Route to build add-inventory view
 router.get(
   "/add-inventory",
-  utilities.handleErrors(invController.buildAddClassification)
+  utilities.handleErrors(invController.buildAddInventory)
 );
 
 // Route to post add-inventory view
-// router.post("/add-inventory", "");
+router.post(
+  "/add-inventory",
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.processNewInventory)
+);
 
 module.exports = router;

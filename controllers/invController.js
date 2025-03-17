@@ -1,3 +1,5 @@
+// Renders webpages (populating design with data), integrates error handling and validation from utilities
+
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities");
 
@@ -50,7 +52,6 @@ invCont.buildMgmt = async function (req, res, next) {
  *  Build Add Classification view
  * ************************** */
 invCont.buildAddClassification = async function (req, res, next) {
-  console.log(`start buildAddClassification`); // for testing
   let nav = await utilities.getNav();
   res.render("./inventory/add-classification", {
     title: "Add New Classification",
@@ -63,8 +64,6 @@ invCont.buildAddClassification = async function (req, res, next) {
  *  Process Adding New Classification
  * ************************** */
 invCont.processNewClassification = async function (req, res) {
-  console.log(`start processNewClassification`); // for testing
-
   let nav = await utilities.getNav();
   const { classification_name } = req.body;
 
@@ -86,6 +85,84 @@ invCont.processNewClassification = async function (req, res) {
       title: "Add New Classification",
       nav,
       classification_name,
+      errors: null,
+    });
+  }
+};
+
+/* ***************************
+ *  Build Add Inventory view
+ * ************************** */
+invCont.buildAddInventory = async function (req, res, next) {
+  console.log(`start buildAddInventory`); // for testing
+  let nav = await utilities.getNav();
+  let classificationList = await utilities.buildClassificationList();
+  res.render("./inventory/add-inventory", {
+    title: "Add New Inventory Item",
+    nav,
+    errors: null,
+    classificationList,
+  });
+};
+
+/* ***************************
+ *  Process Adding New Inventory Item
+ * ************************** */
+invCont.processNewInventory = async function (req, res) {
+  console.log(`start processNewInventory`); // for testing
+
+  let nav = await utilities.getNav();
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+
+  // Add the new classification
+  const result = await invModel.addNewInventory(
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+  );
+
+  if (result) {
+    req.flash(
+      "notice",
+      `The "${inv_year} ${inv_make} ${inv_model}" has been added successfully to the inventory!`
+    );
+    res.redirect("/inv");
+  } else {
+    req.flash(
+      "notice",
+      `Failed to add the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
+    );
+    res.status(501).render("./inventory/add-inventory", {
+      title: "Add New Inventory Item",
+      nav,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
       errors: null,
     });
   }

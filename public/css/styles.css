@@ -22,7 +22,7 @@
   min-width: 344px;
 }
 
-p, li, a, figcaption, button, label, input, span {
+p, li, a, figcaption, button, label, input, select, textarea, span {
   font-family: "Roboto", serif;
   font-weight: 300;
   font-style: normal;
@@ -321,7 +321,7 @@ footer {
   max-width: 500px;
 }
 
-.form input {
+.form input, .form select, .form textarea {
   border-radius: 5px;
   width: 85%;
   min-height: 40px;
@@ -386,4 +386,12 @@ footer {
 .menu-list a {
   display: block;
   padding: 1% 2%;
+}
+
+input:focus:invalid, select:focus:invalid, textarea:focus:invalid {
+  background-color: rgb(247, 203, 210);
+}
+
+input:focus:valid, select:focus:valid, textarea:focus:valid {
+  background-color: rgb(205, 247, 205);
 }
