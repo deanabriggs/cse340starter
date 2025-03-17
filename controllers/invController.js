@@ -124,6 +124,7 @@ invCont.processNewInventory = async function (req, res) {
     inv_color,
     classification_id,
   } = req.body;
+  console.log(req.body); // for testing
 
   // Add the new classification
   const result = await invModel.addNewInventory(
@@ -150,6 +151,11 @@ invCont.processNewInventory = async function (req, res) {
       "notice",
       `Failed to add the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
     );
+
+    let classificationList = await utilities.buildClassificationList(
+      classification_id
+    );
+    console.log(classificationList); // for testing
     res.status(501).render("./inventory/add-inventory", {
       title: "Add New Inventory Item",
       nav,
@@ -162,7 +168,7 @@ invCont.processNewInventory = async function (req, res) {
       inv_price,
       inv_miles,
       inv_color,
-      classification_id,
+      classificationList,
       errors: null,
     });
   }

@@ -73,9 +73,9 @@ invValidate.inventoryRules = () => {
       .notEmpty()
       .isLength({ min: 1 })
       .withMessage('Please provide valid "Model" - at least 1 character')
-      .matches(/^[A-Za-z0-9 .'/+\-]+$/)
+      .matches(/^[A-Za-z0-9.\'+ \-]+/)
       .withMessage(
-        '"Model" can only use letters, numbers, spaces, and these special characters [./+-]'
+        `"Model" can only use letters, numbers, spaces, and these special characters [.'+-]`
       ),
     // Year must be a 4-digit number, min 1800
     body("inv_year")
@@ -101,7 +101,9 @@ invValidate.inventoryRules = () => {
       .trim()
       .notEmpty()
       .withMessage("File path is required")
-      .matches("^/images/vehicles/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
+      .matches(
+        /^\/images\/vehicles\/[a-zA-Z0-9_\-]+\.(jpeg|png|webp|avif|gif)$/
+      )
       .withMessage(
         'Picture path must begin "/images/vehicles/" and be a picture file [jpeg, png, gif, webp, avif]. Allowed special characters [_-].'
       ),
@@ -110,7 +112,9 @@ invValidate.inventoryRules = () => {
       .trim()
       .notEmpty()
       .withMessage("File path is required")
-      .matches("^/images/vehicles/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
+      .matches(
+        /^\/images\/vehicles\/[a-zA-Z0-9_\-]+\.(jpeg|png|webp|avif|gif)$/
+      )
       .withMessage(
         'Small picture path must begin "/images/vehicles/" and be a picture file [jpeg, png, gif, webp, avif]. Allowed special characters [_-].'
       ),
@@ -166,9 +170,12 @@ invValidate.checkInventoryData = async (req, res, next) => {
   } = req.body;
   let errors = [];
   errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    let classificationList = await utilities.buildClassificationList();
+    let classificationList = await utilities.buildClassificationList(
+      classification_id
+    );
     res.render("./inventory/add-inventory", {
       errors,
       title: "Add New Inventory Item",
@@ -182,7 +189,6 @@ invValidate.checkInventoryData = async (req, res, next) => {
       inv_price,
       inv_miles,
       inv_color,
-      classification_id,
       classificationList,
     });
     return;
