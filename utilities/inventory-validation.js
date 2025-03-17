@@ -94,12 +94,26 @@ invValidate.inventoryRules = () => {
       .isLength({ min: 12 }, { max: 250 })
       .withMessage("Must use between 12 & 250 characters"),
     // Image is required
-    body("inv_image").trim().notEmpty().withMessage("File path is required"),
+    body("inv_image")
+      .trim()
+      .notEmpty()
+      .withMessage("File path is required")
+      .trim()
+      .notEmpty()
+      .withMessage("File path is required")
+      .matches("^/images/inventory/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
+      .withMessage(
+        'Must begin "/images/inventory/" and be a picture file. These special characters allowed [_-].'
+      ),
     // Thumbnail is required
     body("inv_thumbnail")
       .trim()
       .notEmpty()
-      .withMessage("File path is required"),
+      .withMessage("File path is required")
+      .matches("^/images/inventory/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
+      .withMessage(
+        'Must begin "/images/inventory/" and be a picture file. These special characters allowed [_-].'
+      ),
     // Price must be a number (decimal or integer), no comma or dollar sign, min=0
     body("inv_price")
       .trim()
