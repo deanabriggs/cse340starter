@@ -101,18 +101,18 @@ invValidate.inventoryRules = () => {
       .trim()
       .notEmpty()
       .withMessage("File path is required")
-      .matches("^/images/inventory/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
+      .matches("^/images/vehicles/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
       .withMessage(
-        'Must begin "/images/inventory/" and be a picture file. These special characters allowed [_-].'
+        'Picture path must begin "/images/vehicles/" and be a picture file [jpeg, png, gif, webp, avif]. Allowed special characters [_-].'
       ),
     // Thumbnail is required
     body("inv_thumbnail")
       .trim()
       .notEmpty()
       .withMessage("File path is required")
-      .matches("^/images/inventory/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
+      .matches("^/images/vehicles/[a-zA-Z0-9_-]+.(jpeg|png|webp|avif|gif)$")
       .withMessage(
-        'Must begin "/images/inventory/" and be a picture file. These special characters allowed [_-].'
+        'Small picture path must begin "/images/vehicles/" and be a picture file [jpeg, png, gif, webp, avif]. Allowed special characters [_-].'
       ),
     // Price must be a number (decimal or integer), no comma or dollar sign, min=0
     body("inv_price")

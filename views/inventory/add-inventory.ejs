@@ -41,14 +41,14 @@
         
         <label for="inv_image">Picture:</label>
         <input type="text" name="inv_image" id="inv_image" 
-        pattern="^/images/inventory/[a-zA-Z0-9_-]+\.(jpeg|png|webp|avif|gif)$"
-        title="Must be a picture file saved in the correct directory and cannot contain spaces. Dash and underscore are allowed." 
+        pattern="^/images/vehicles/[a-zA-Z0-9_-]+\.(jpeg|png|webp|avif|gif)$"
+        title="Must be a picture file saved in the '/images/vehicles/' directory and cannot contain spaces. Dash and underscore are allowed." 
         value="/images/vehicles/no-image.png" required 
         value="<%= locals.inv_image %>">
         
         <label for="inv_thumbnail">Small Picture: </label>
         <input type="text" name="inv_thumbnail" id="inv_thumbnail" 
-        pattern="^/images/inventory/[a-zA-Z0-9_-]+\.(jpeg|png|webp|avif|gif)$"
+        pattern="^/images/vehicles/[a-zA-Z0-9_-]+\.(jpeg|png|webp|avif|gif)$"
         title="Must be a picture file saved in the correct directory and cannot contain spaces. Dash and underscore are allowed."
         value="/images/vehicles/no-image-tn.png" required 
         value="<%= locals.inv_thumbnail %>">
