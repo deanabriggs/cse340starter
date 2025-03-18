@@ -115,8 +115,8 @@ Util.buildItemView = async function (data) {
 Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications();
   let classificationList =
-    '<select name="classification_id" id="classificiationList" required pattern="^(?!Choose a Classification$).+" title="Choose a valid classification">';
-  classificationList += "<option value=''>Choose a Classification</option>";
+    '<select name="classification_id" id="classificiationList" required>';
+  classificationList += "<option value=''>Choose a Classification</option> ";
   data.rows.forEach((row) => {
     classificationList += '<option value="' + row.classification_id + '"';
     if (
