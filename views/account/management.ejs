@@ -1,0 +1,13 @@
+<h1 class="acctTitle"><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<h2>You're logged in</h2>

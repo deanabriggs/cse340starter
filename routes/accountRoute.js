@@ -4,6 +4,9 @@ const accountController = require("../controllers/accountController");
 const utilities = require("../utilities");
 const validate = require("../utilities/account-validation");
 
+// Account Management Route
+router.get("/", utilities.handleErrors(accountController.buildAcctMgmt));
+
 // Login Route
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
@@ -11,7 +14,7 @@ router.post(
   "/login",
   validate.loginRules(),
   validate.checkLoginData,
-  utilities.handleErrors(accountController.processLogin)
+  utilities.handleErrors(accountController.accountLogin)
 );
 
 // Register Route

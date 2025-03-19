@@ -28,8 +28,8 @@ router.get(
 // Route to post add-classification view
 router.post(
   "/add-classification",
-  invValidate.classificationRules(),
-  invValidate.checkClassificationData, // ensures classification doesn't already exist
+  invValidate.classificationRules(), // ensures classification doesn't already exist
+  invValidate.checkClassificationData,
   utilities.handleErrors(invController.processNewClassification)
 );
 

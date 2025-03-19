@@ -33,7 +33,6 @@ invValidate.classificationRules = () => {
  * Check data and return errors or continue to add-classification
  ***********************************************************/
 invValidate.checkClassificationData = async (req, res, next) => {
-  console.log(`start checkClassificationData`); // for testing
   const { classification_name } = req.body;
   let errors = [];
   errors = validationResult(req);

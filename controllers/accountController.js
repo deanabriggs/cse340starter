@@ -1,12 +1,15 @@
 const utilities = require("../utilities/");
 const accountModel = require("../models/account-model");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
 /******************************
  * Deliver login view
  ******************************/
 async function buildLogin(req, res, next) {
   let nav = await utilities.getNav();
-  res.render("./account/login", {
+  res.render("account/login", {
     title: "Login",
     nav,
     errors: null,
@@ -18,7 +21,7 @@ async function buildLogin(req, res, next) {
  ******************************/
 async function buildRegister(req, res, next) {
   let nav = await utilities.getNav();
-  res.render("./account/register", {
+  res.render("account/register", {
     title: "Register",
     nav,
     errors: null,
@@ -94,4 +97,76 @@ async function processLogin(req, res) {
   }
 }
 
-module.exports = { buildLogin, buildRegister, processAcctReg, processLogin };
+/****************************************
+ * Process Login Request
+ * ************************************** */
+async function accountLogin(req, res) {
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.");
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+    return;
+  }
+  try {
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      delete accountData.account_password;
+      const accessToken = jwt.sign(
+        accountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 * 1000 }
+      );
+      if (process.env.NODE_ENV === "development") {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      } else {
+        res.cookie("jwt", accessToken, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 3600 * 1000,
+        });
+      }
+      return res.redirect("/account");
+    } else {
+      req.flash(
+        "message notice",
+        "Please check your credentials and try again."
+      );
+      res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
+    }
+  } catch (error) {
+    throw new Error("Access Forbidden");
+  }
+}
+
+/******************************
+ * Deliver Account Management view
+ ******************************/
+async function buildAcctMgmt(req, res, next) {
+  console.log("Building Account Management View...");
+  let nav = await utilities.getNav();
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    errors: null,
+  });
+}
+
+module.exports = {
+  buildLogin,
+  buildRegister,
+  buildAcctMgmt,
+  processAcctReg,
+  processLogin,
+  accountLogin,
+};

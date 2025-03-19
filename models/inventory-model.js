@@ -90,7 +90,6 @@ async function addNewInventory(
   inv_color,
   classification_id
 ) {
-  console.log("addNewInventory starts..."); // for testing
   try {
     const sql = `
       INSERT INTO public.inventory (inv_make, inv_model, inv_year, inv_description,
@@ -98,7 +97,6 @@ async function addNewInventory(
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
       RETURNING *;
     `;
-    console.log(`addNewInventory results... ${sql}`); // for testing
     return await pool.query(sql, [
       inv_make,
       inv_model,

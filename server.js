@@ -11,7 +11,6 @@ const expressMessages = require("express-messages");
 const pool = require("./database");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
 const inventoryRoute = require("./routes/inventoryRoute");
@@ -19,6 +18,8 @@ const accountRoute = require("./routes/accountRoute");
 const baseController = require("./controllers/baseController");
 const utilities = require("./utilities");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
 
 /****************************
  * Middleware
@@ -43,8 +44,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// Process Registration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//x-www-form-urlencoded
+app.use(cookieParser());
+app.use(utilities.checkJWTToken);
 
 /* ***********************
  * View Engine and Templates
