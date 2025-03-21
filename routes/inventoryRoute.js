@@ -47,9 +47,13 @@ router.post(
   utilities.handleErrors(invController.processNewInventory)
 );
 
+// Manage by Classification
 router.get(
   "/getInventory/:classification_id",
   utilities.handleErrors(invController.getInventoryJSON)
 );
+
+// Route to build the Edit Inventory view
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInv));
 
 module.exports = router;
