@@ -5,7 +5,11 @@ const utilities = require("../utilities");
 const validate = require("../utilities/account-validation");
 
 // Account Management Route
-router.get("/", utilities.handleErrors(accountController.buildAcctMgmt));
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAcctMgmt)
+);
 
 // Login Route
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
