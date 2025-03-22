@@ -11,7 +11,7 @@
   <% } %>
 
 <div class="form-frame">
-    <form class="form" action="/inv/edit" method="POST">
+    <form class="form" action="/inv/edit" method="POST" id="editForm">
         
         <label for="classificiationList">Classification:</label>
             <%- classificationList %>
@@ -73,6 +73,12 @@
         title="Must be at least 3 letters (spaces ok, but no numbers or special characters)"
         placeholder="At least 3 letters">
         
-        <button type="submit">Update Vehicle</button>
+        <button type="submit" disabled >Update Vehicle</button>
+
+        <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+
     </form>
 </div>
+
+<script src="/js/inv-update.js"></script>

@@ -111,8 +111,6 @@ invCont.buildAddInventory = async function (req, res, next) {
  *  Process Adding New Inventory Item
  * ************************** */
 invCont.processNewInventory = async function (req, res) {
-  console.log(`start processNewInventory`); // for testing
-
   let nav = await utilities.getNav();
   const {
     inv_make,
@@ -126,9 +124,8 @@ invCont.processNewInventory = async function (req, res) {
     inv_color,
     classification_id,
   } = req.body;
-  console.log(req.body); // for testing
 
-  // Add the new classification
+  // Add the new item
   const result = await invModel.addNewInventory(
     inv_make,
     inv_model,
@@ -157,7 +154,6 @@ invCont.processNewInventory = async function (req, res) {
     let classificationList = await utilities.buildClassificationList(
       classification_id
     );
-    console.log(classificationList); // for testing
     res.status(501).render("./inventory/add-inventory", {
       title: "Add New Inventory Item",
       nav,
@@ -195,7 +191,6 @@ invCont.getInventoryJSON = async (req, res, next) => {
  *  Build Edit Inventory view
  * ************************** */
 invCont.buildEditInv = async function (req, res, next) {
-  console.log(`This is the param being retreived: `, req.params); // for testing
   const inv_id = parseInt(req.params.inv_id);
   let nav = await utilities.getNav();
   let itemData = await invModel.getItemByInvId(inv_id);
@@ -220,6 +215,74 @@ invCont.buildEditInv = async function (req, res, next) {
     inv_color: itemData.inv_color,
     classification_id: itemData.classification_id,
   });
+};
+
+/* ***************************
+ *  Process Updating Inventory Item
+ * ************************** */
+invCont.processUpdateInv = async function (req, res) {
+  let nav = await utilities.getNav();
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+
+  // Update the item
+  const updateResult = await invModel.updateInventory(
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+  );
+
+  if (updateResult) {
+    req.flash(
+      "notice",
+      `The "${inv_year} ${inv_make} ${inv_model}" has been updated successfully!`
+    );
+    res.redirect("/inv/");
+  } else {
+    req.flash(
+      "notice",
+      `Failed to add the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
+    );
+    let classificationList = await utilities.buildClassificationList(
+      classification_id
+    );
+    const itemName = `${inv_make} ${inv_model}`;
+    res.status(501).render("./inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classificationList: classificationList,
+      errors: null,
+    });
+  }
 };
 
 module.exports = invCont;
