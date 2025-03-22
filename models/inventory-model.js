@@ -159,11 +159,26 @@ async function updateInventory(
       classification_id,
       inv_id,
     ]);
-    console.log(`This is returned after update processed: ${data.rows[0]}`);
     return data.rows[0];
   } catch (error) {
     console.error("model error: " + error);
     return "Inventory item could not be updated.";
+  }
+}
+
+/* ***************************
+ *  Delete Inventory Item
+ * ************************** */
+async function deleteInventory(inv_id) {
+  try {
+    const sql = `
+      DELETE FROM public.inventory 
+      WHERE inv_id = $1`;
+    const data = await pool.query(sql, [inv_id]);
+
+    return data; // should store "1" if successful, "0" if failure
+  } catch (error) {
+    new Error("Delete Inventory Error");
   }
 }
 
@@ -175,4 +190,5 @@ module.exports = {
   checkExistingClassification,
   addNewInventory,
   updateInventory,
+  deleteInventory,
 };

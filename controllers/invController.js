@@ -260,7 +260,7 @@ invCont.processUpdateInv = async function (req, res) {
   } else {
     req.flash(
       "notice",
-      `Failed to add the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
+      `Failed to update the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
     );
     let classificationList = await utilities.buildClassificationList(
       classification_id
@@ -282,6 +282,51 @@ invCont.processUpdateInv = async function (req, res) {
       classificationList: classificationList,
       errors: null,
     });
+  }
+};
+
+/* ***************************
+ *  Build Delete Inventory view
+ * ************************** */
+invCont.buildDeleteInv = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id);
+  let nav = await utilities.getNav();
+  let itemData = await invModel.getItemByInvId(inv_id);
+  let itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+  res.render("./inventory/delete-confirm", {
+    title: "Confirm Deletion of '" + itemName + "'",
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_price: itemData.inv_price,
+  });
+};
+
+/* ***************************
+ *  Process Deteling Inventory Item
+ * ************************** */
+invCont.processDeleteInv = async function (req, res) {
+  let nav = await utilities.getNav();
+  const { inv_id, inv_make, inv_model, inv_year, inv_price } = req.body;
+
+  // Delete the item
+  const deleteResult = await invModel.deleteInventory(inv_id);
+
+  if (deleteResult) {
+    req.flash(
+      "notice",
+      `The "${inv_year} ${inv_make} ${inv_model}" has been deleted successfully!`
+    );
+    res.redirect("/inv/");
+  } else {
+    req.flash(
+      "notice",
+      `Failed to delete the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
+    );
+    res.status(501).redirect("/delete/:inv_id");
   }
 };
 
