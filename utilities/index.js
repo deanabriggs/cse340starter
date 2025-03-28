@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model");
 const jwt = require("jsonwebtoken");
+const { checkEmployee } = require("../models/account-model");
 require("dotenv").config();
 const Util = {};
 
@@ -145,6 +146,11 @@ Util.handleErrors = (fn) => (req, res, next) =>
  * Middleware to check token validity
  ****************************************/
 Util.checkJWTToken = (req, res, next) => {
+  // Initialize accountData as null
+  res.locals.accountData = null;
+  res.locals.loggedin = 0;
+  res.locals.isEmployee = false; // Initialize employee status
+
   if (req.cookies.jwt) {
     jwt.verify(
       req.cookies.jwt,
@@ -157,6 +163,9 @@ Util.checkJWTToken = (req, res, next) => {
         }
         res.locals.accountData = accountData;
         res.locals.loggedin = 1;
+        res.locals.isEmployee =
+          accountData.account_type === "Employee" ||
+          accountData.account_type === "Admin"; // Set employee status
         next();
       }
     );
@@ -174,6 +183,29 @@ Util.checkLogin = (req, res, next) => {
   } else {
     req.flash("notice", "Please log in.");
     return res.redirect("/account/login");
+  }
+};
+
+/*******************************************
+ * Check Employee Status
+ *******************************************/
+Util.checkEmployee = (req, res, next) => {
+  try {
+    console.log("Starting employee check...");
+    console.log("Is employee?", res.locals.isEmployee);
+
+    if (res.locals.isEmployee) {
+      console.log("Access granted - is employee");
+      next();
+    } else {
+      console.log("Access denied - not employee");
+      req.flash("notice", "Access denied. Employee privileges required.");
+      return res.redirect("/account/");
+    }
+  } catch (error) {
+    console.error("Error in employee check:", error);
+    req.flash("notice", "An error occurred while verifying access.");
+    return res.redirect("/account/");
   }
 };
 

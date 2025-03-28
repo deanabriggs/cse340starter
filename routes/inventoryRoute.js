@@ -17,18 +17,27 @@ router.get(
 );
 
 // Route to build management view
-router.get("/", utilities.handleErrors(invController.buildMgmt));
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.checkEmployee,
+  utilities.handleErrors(invController.buildMgmt)
+);
 
 // Route to build add-classification view
 router.get(
   "/add-classification",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   utilities.handleErrors(invController.buildAddClassification)
 );
 
 // Route to post add-classification view
 router.post(
   "/add-classification",
-  invValidate.classificationRules(), // ensures classification doesn't already exist
+  utilities.checkLogin,
+  utilities.checkEmployee,
+  invValidate.classificationRules(),
   invValidate.checkClassificationData,
   utilities.handleErrors(invController.processNewClassification)
 );
@@ -36,12 +45,16 @@ router.post(
 // Route to build add-inventory view
 router.get(
   "/add-inventory",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   utilities.handleErrors(invController.buildAddInventory)
 );
 
 // Route to post add-inventory view
 router.post(
   "/add-inventory",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
   utilities.handleErrors(invController.processNewInventory)
@@ -50,15 +63,24 @@ router.post(
 // Manage by Classification
 router.get(
   "/getInventory/:classification_id",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   utilities.handleErrors(invController.getInventoryJSON)
 );
 
 // Route to build the Edit Inventory view
-router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInv));
+router.get(
+  "/edit/:inv_id",
+  utilities.checkLogin,
+  utilities.checkEmployee,
+  utilities.handleErrors(invController.buildEditInv)
+);
 
 // Route to Edit Inventory
 router.post(
   "/edit",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   invValidate.inventoryRules(),
   invValidate.checkUpdateData,
   utilities.handleErrors(invController.processUpdateInv)
@@ -67,12 +89,16 @@ router.post(
 // Route to build Delete view
 router.get(
   "/delete/:inv_id",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   utilities.handleErrors(invController.buildDeleteInv)
 );
 
 // Route to Delete Inventory Item
 router.post(
   "/delete/:inv_id",
+  utilities.checkLogin,
+  utilities.checkEmployee,
   utilities.handleErrors(invController.processDeleteInv)
 );
 

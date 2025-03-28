@@ -159,6 +159,123 @@ async function buildAcctMgmt(req, res, next) {
   });
 }
 
+/******************************
+ * Build Account Update view
+ ******************************/
+async function buildUpdate(req, res, next) {
+  let nav = await utilities.getNav();
+
+  try {
+    if (!res.locals.accountData) {
+      req.flash("notice", "Please log in to update your account.");
+      return res.redirect("/account/login");
+    }
+
+    res.render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+      accountData: res.locals.accountData,
+    });
+  } catch (error) {
+    req.flash("notice", "Sorry, there was an error loading the update page.");
+    res.status(500).render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+      accountData: null,
+    });
+  }
+}
+
+/****************************************
+ * Process Account Update
+ ****************************************/
+async function processUpdate(req, res) {
+  console.log("processUpdate");
+  let nav = await utilities.getNav();
+  const account_id = parseInt(req.params.account_id);
+
+  try {
+    // Verify the account_id matches the logged-in user
+    if (account_id !== res.locals.accountData.account_id) {
+      req.flash("notice", "You can only update your own account.");
+      return res.redirect("/account/");
+    }
+
+    if (req.body.update_type === "info") {
+      const { account_firstname, account_lastname, account_email, account_id } =
+        req.body;
+      const updateResult = await accountModel.updateAcctInfo(
+        account_id,
+        account_firstname,
+        account_lastname,
+        account_email
+      );
+
+      // Check if updateResult is an error message
+      if (typeof updateResult === "string") {
+        console.error("Update error:", updateResult);
+        req.flash("notice", "Sorry, the account information update failed.");
+        return res.status(500).render("account/update", {
+          title: "Update Account",
+          nav,
+          errors: null,
+          accountData: res.locals.accountData,
+        });
+      }
+
+      req.flash("notice", "Account information updated successfully.");
+      res.status(500).render("account/management", {
+        title: "Account Management",
+        nav,
+        errors: null,
+        accountData: res.locals.accountData,
+      });
+    } else if (req.body.update_type === "password") {
+      const { account_id, new_password } = req.body;
+
+      // Update password (hashing is handled in the model)
+      const updateResult = await accountModel.updateAcctPassword(
+        account_id,
+        new_password
+      );
+
+      // Check if updateResult is an error message
+      if (typeof updateResult === "string") {
+        console.error("Update error:", updateResult);
+        req.flash("notice", "Sorry, the password update failed.");
+        return res.status(500).render("account/update", {
+          title: "Update Account",
+          nav,
+          errors: null,
+          accountData: res.locals.accountData,
+        });
+      }
+
+      req.flash("notice", "Password updated successfully.");
+      res.status(500).render("account/management", {
+        title: "Account Management",
+        nav,
+        errors: null,
+        accountData: res.locals.accountData,
+      });
+    } else {
+      req.flash("notice", "Invalid update type.");
+      res.redirect("/account/update/" + account_id);
+    }
+  } catch (error) {
+    console.error("Error in processUpdate:", error);
+    req.flash("notice", "Sorry, there was an error updating your account.");
+    res.status(500).render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: null,
+      accountData: res.locals.accountData,
+    });
+  }
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
@@ -166,4 +283,6 @@ module.exports = {
   processAcctReg,
   processLogin,
   accountLogin,
+  buildUpdate,
+  processUpdate,
 };

@@ -34,4 +34,24 @@ router.post(
   utilities.handleErrors(accountController.processAcctReg)
 );
 
+// Update Route
+router.get(
+  "/update/:account_id",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildUpdate)
+);
+
+router.post(
+  "/update/:account_id",
+  validate.checkUpdateType, // Check if updating for info or password, then calls validation rules
+  validate.checkUpdateData,
+  utilities.handleErrors(accountController.processUpdate)
+);
+
+// Logout Route
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt");
+  res.redirect("/");
+});
+
 module.exports = router;
