@@ -22,7 +22,7 @@
   min-width: 344px;
 }
 
-p, li, a, figcaption, button, label, input, select, textarea, span {
+p, td, li, a, figcaption, button, label, input, select, textarea, span {
   font-family: "Roboto", serif;
   font-weight: 300;
   font-style: normal;
@@ -31,7 +31,7 @@ p, li, a, figcaption, button, label, input, select, textarea, span {
   list-style: none;
 }
 
-h1, h2, h3 {
+h1, h2, h3, th {
   font-family: "PT Serif", serif;
   font-weight: 900;
   font-style: normal;
@@ -316,6 +316,7 @@ footer {
   background-color: rgb(26, 46, 82);
   color: white;
   justify-self: center;
+  margin-bottom: 20px;
 }
 
 .form {
@@ -368,15 +369,30 @@ footer {
 
 .form-frame p {
   justify-self: center;
+  text-align: center;
   margin-top: 0px;
-  margin-bottom: 20px;
 }
 
 .form-frame a {
   text-decoration: underline;
   color: white;
   justify-self: center;
+}
+
+#pwNote {
+  text-align: center;
+  font-size: smaller;
   font-weight: bold;
+  margin-bottom: -20px;
+  margin-top: 50px;
+}
+
+.form-frame #pwRestrictNote {
+  text-align: center;
+  font-size: large;
+  font-style: italic;
+  padding: 30px 30px 0 30px;
+  justify-self: center;
 }
 
 .form h3 {
@@ -387,9 +403,33 @@ footer {
   padding: 2% 1%;
 }
 
+.form-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-top: 20px;
+}
+
+/********* table formatting *************/
+
+
 .menu-list a {
   display: block;
   padding: 1% 2%;
+}
+
+.content {
+  padding: 0 20px;
+}
+
+th {
+  padding-top: 20px;
+  text-align: left;
+  text-decoration: underline;
+}
+
+td {
+  padding-right: 15px;
 }
 
 input:focus:invalid, select:focus:invalid, textarea:focus:invalid {

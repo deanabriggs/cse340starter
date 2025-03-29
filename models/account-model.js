@@ -102,12 +102,19 @@ async function updateAcctInfo(
   try {
     const sql =
       "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4";
-    await pool.query(sql, [
+    const result = await pool.query(sql, [
       account_firstname,
       account_lastname,
       account_email,
       account_id,
     ]);
+
+    // Check if the update affected any rows
+    if (result.rowCount > 0) {
+      return true; // Indicate success
+    } else {
+      return "No rows were updated.";
+    }
   } catch (error) {
     return error.message;
   }
@@ -142,19 +149,6 @@ async function getAccountById(account_id) {
   }
 }
 
-/***********************************
- * Update account password
- ***********************************/
-async function updatePassword(account_id, account_password) {
-  try {
-    const sql =
-      "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *";
-    return await pool.query(sql, [account_password, account_id]);
-  } catch (error) {
-    return error.message;
-  }
-}
-
 module.exports = {
   registerAccount,
   checkExistingEmail,
@@ -164,5 +158,4 @@ module.exports = {
   updateAcctInfo,
   updateAcctPassword,
   getAccountById,
-  updatePassword,
 };
