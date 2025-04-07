@@ -38,12 +38,26 @@ invValidate.checkClassificationData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    res.render("./inventory/add-classification", {
-      errors,
-      title: "Add New Classification",
-      nav,
-      classification_name,
-    });
+
+    // Check if this is an edit operation (has classification_id) or an add operation
+    if (req.body.classification_id) {
+      // This is an edit operation
+      res.render("./inventory/edit-classification", {
+        errors,
+        title: "Edit Classification",
+        nav,
+        classification_name,
+        classification_id: req.body.classification_id,
+      });
+    } else {
+      // This is an add operation
+      res.render("./inventory/add-classification", {
+        errors,
+        title: "Add New Classification",
+        nav,
+        classification_name,
+      });
+    }
     return;
   }
   next();
@@ -236,6 +250,46 @@ invValidate.checkUpdateData = async (req, res, next) => {
       inv_miles,
       inv_color,
       classificationList,
+    });
+    return;
+  }
+  next();
+};
+
+/****************************************
+ * Classification Update Validation Rules
+ ****************************************/
+invValidate.classificationUpdateRules = () => {
+  return [
+    // Classification is required and must be a string
+    body("classification_name")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a valid classification name.")
+      .matches(/^[A-Za-z]+$/)
+      .withMessage(
+        "Must contain only letters (no spaces or special characters)"
+      ),
+  ];
+};
+
+/***********************************************************
+ * Check data and return errors or continue to edit-classification
+ ***********************************************************/
+invValidate.checkClassificationUpdateData = async (req, res, next) => {
+  const { classification_name, classification_id } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("./inventory/edit-classification", {
+      errors,
+      title: "Edit Classification",
+      nav,
+      classification_name,
+      classification_id,
     });
     return;
   }

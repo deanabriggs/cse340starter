@@ -43,7 +43,7 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_make +
         " " +
         vehicle.inv_model +
-        'details"><img src="' +
+        ' details"><img src="' +
         vehicle.inv_thumbnail +
         '" alt="Image of ' +
         vehicle.inv_make +
@@ -150,6 +150,7 @@ Util.checkJWTToken = (req, res, next) => {
   res.locals.accountData = null;
   res.locals.loggedin = 0;
   res.locals.isEmployee = false; // Initialize employee status
+  res.locals.isAdmin = false; // Initialize admin status
 
   if (req.cookies.jwt) {
     jwt.verify(
@@ -166,6 +167,7 @@ Util.checkJWTToken = (req, res, next) => {
         res.locals.isEmployee =
           accountData.account_type === "Employee" ||
           accountData.account_type === "Admin"; // Set employee status
+        res.locals.isAdmin = accountData.account_type === "Admin"; // Set admin status
         next();
       }
     );
@@ -207,6 +209,64 @@ Util.checkEmployee = (req, res, next) => {
     req.flash("notice", "An error occurred while verifying access.");
     return res.redirect("/account/");
   }
+};
+
+/*******************************************
+ * Check Admin Status
+ *******************************************/
+Util.checkAdmin = (req, res, next) => {
+  try {
+    console.log("Starting admin check...");
+    console.log("Is admin?", res.locals.isAdmin);
+
+    if (res.locals.isAdmin) {
+      console.log("Access granted - is admin");
+      next();
+    } else {
+      console.log("Access denied - not an administrator");
+      req.flash("notice", "Access denied. Administrator privileges required.");
+      return res.redirect("/account/");
+    }
+  } catch (error) {
+    console.error("Error inadmin check:", error);
+    req.flash("notice", "An error occurred while verifying access.");
+    return res.redirect("/account/");
+  }
+};
+
+/* ************************
+ * Constructs the edit classification Section
+ ************************** */
+Util.buildEditClassification = async function (req, res, next) {
+  // Check if the user is an admin
+  if (!res.locals.isAdmin) {
+    return ""; // Return empty string if user is not an admin
+  }
+
+  let data = await invModel.getClassifications();
+
+  let editClassSection = "<div>";
+  editClassSection += "<h2 class='mgmt-subheader'>Manage Classifications</h2>";
+  editClassSection += "<div class='content'>";
+  editClassSection +=
+    "<p>To delete a classification, you must first delete all vehicles in it.</p>";
+  let dataTable = "<table>";
+  dataTable += "<thead>";
+  dataTable += "<tr><th>Classification</th><td>&nbsp;</td><td>&nbsp;</td></tr>";
+  dataTable += "</thead>";
+  dataTable += "<tbody>";
+  data.rows.forEach((element) => {
+    dataTable += `<tr><td>${element.classification_name}</td>`;
+    dataTable += `<td><a href='/inv/classEdit/${element.classification_id}' title='Click to update'>Modify</a></td>`;
+    dataTable += `<td><a href='/inv/classDelete/${element.classification_id}' title='Click to delete'>Delete</a></td></tr>`;
+  });
+  dataTable += "</tbody>";
+  dataTable += "</table>";
+  editClassSection += dataTable;
+  editClassSection += "</div>";
+  editClassSection += "</div>";
+
+  return editClassSection;
 };
 
 module.exports = Util;

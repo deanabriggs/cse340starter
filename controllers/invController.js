@@ -43,11 +43,17 @@ invCont.buildByInvId = async function (req, res, next) {
 invCont.buildMgmt = async function (req, res, next) {
   let nav = await utilities.getNav();
   const classificationSelect = await utilities.buildClassificationList();
+  const editClassifications = await utilities.buildEditClassification(
+    req,
+    res,
+    next
+  );
   res.render("./inventory/management", {
     title: "Inventory Management",
     nav,
     errors: null,
     classificationSelect,
+    editClassifications,
   });
 };
 
@@ -327,6 +333,111 @@ invCont.processDeleteInv = async function (req, res) {
       `Failed to delete the "${inv_year} ${inv_make} ${inv_model}". Please try again.`
     );
     res.status(501).redirect("/delete/:inv_id");
+  }
+};
+
+/* ***************************
+ *  Build Edit Classification view
+ * ************************** */
+invCont.buildEditClassification = async function (req, res, next) {
+  const classification_id = parseInt(req.params.classification_id);
+  let nav = await utilities.getNav();
+  let classificationData = await invModel.getClassificationById(
+    classification_id
+  );
+  res.render("./inventory/edit-classification", {
+    title: "Edit Classification",
+    nav,
+    errors: null,
+    classification_id: classificationData.classification_id,
+    classification_name: classificationData.classification_name,
+  });
+};
+
+/* ***************************
+ *  Process Updating Classification
+ * ************************** */
+invCont.processUpdateClassification = async function (req, res) {
+  let nav = await utilities.getNav();
+
+  // Get the classification_id and classification_name from the request body
+  const classification_id = req.body.classification_id;
+  const classification_name = req.body.classification_name;
+
+  // Validate that both parameters are present
+  if (!classification_id || !classification_name) {
+    req.flash("notice", "Missing required parameters. Please try again.");
+    return res.redirect("/inv");
+  }
+
+  // Update the classification
+  const updateResult = await invModel.updateClassification(
+    classification_id,
+    classification_name
+  );
+
+  if (updateResult) {
+    req.flash(
+      "notice",
+      `The classification "${classification_name}" has been updated successfully!`
+    );
+    // Redirect to the inventory page to refresh the navigation and classification list
+    res.redirect("/inv");
+  } else {
+    req.flash(
+      "notice",
+      `Failed to update the classification "${classification_name}". Please try again.`
+    );
+    res.status(501).render("./inventory/edit-classification", {
+      title: "Edit Classification",
+      nav,
+      classification_id,
+      classification_name,
+      errors: null,
+    });
+  }
+};
+
+/* ***************************
+ *  Build Delete Classification view
+ * ************************** */
+invCont.buildDeleteClassification = async function (req, res, next) {
+  const classification_id = parseInt(req.params.classification_id);
+  let nav = await utilities.getNav();
+  let classificationData = await invModel.getClassificationById(
+    classification_id
+  );
+  res.render("./inventory/delete-classification", {
+    title: "Delete Classification",
+    nav,
+    errors: null,
+    classification_id: classificationData.classification_id,
+    classification_name: classificationData.classification_name,
+  });
+};
+
+/* ***************************
+ *  Process Deleting Classification
+ * ************************** */
+invCont.processDeleteClassification = async function (req, res) {
+  let nav = await utilities.getNav();
+  const { classification_id, classification_name } = req.body;
+
+  // Delete the classification
+  const deleteResult = await invModel.deleteClassification(classification_id);
+
+  if (deleteResult) {
+    req.flash(
+      "notice",
+      `The classification "${classification_name}" has been deleted successfully!`
+    );
+    res.redirect("/inv");
+  } else {
+    req.flash(
+      "notice",
+      `Failed to delete the classification "${classification_name}". Ensure no vehicles are associated to this classification and try again.`
+    );
+    res.status(501).redirect("/inv");
   }
 };
 

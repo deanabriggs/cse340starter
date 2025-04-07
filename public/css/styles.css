@@ -412,7 +412,6 @@ footer {
 
 /********* table formatting *************/
 
-
 .menu-list a {
   display: block;
   padding: 1% 2%;
@@ -422,13 +421,22 @@ footer {
   padding: 0 20px;
 }
 
+.content #classificationList {
+  margin-bottom: 20px;
+}
+
+.mgmt-subheader {
+  margin-top: 40px;
+  color: rgb(11, 115, 146);
+}
+
 th {
-  padding-top: 20px;
+  padding-top: 0px;
   text-align: left;
   text-decoration: underline;
 }
 
-td {
+td{
   padding-right: 15px;
 }
 

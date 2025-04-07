@@ -1,0 +1,27 @@
+<h1 class="delete-classification"><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<div class="form-frame">
+    <form class="form" action="/inv/classDelete" method="POST" id="deleteForm">
+        <h3>Are you sure you want to delete this classification?</h3>
+        <p>This action cannot be undone.</p>
+        
+        <label for="classification_name">Classification Name:</label>
+        <input type="text" name="classification_name" id="classification_name" readonly
+            value="<%= locals.classification_name %>">
+        
+        <button type="submit">Delete Classification</button>
+        
+        <input type="hidden" name="classification_id"
+        <% if(locals.classification_id) { %> value="<%= locals.classification_id %>" <% } %>>
+    </form>
+</div> 

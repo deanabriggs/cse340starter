@@ -219,7 +219,7 @@ validate.checkUpdateInfo = async (req, res, next) => {
  ****************************************/
 validate.checkUpdatePassword = async (req, res, next) => {
   console.log("checkUpdatePassword");
-  const { current_password, new_password, confirm_password } = req.body;
+  const { new_password } = req.body;
   let errors = [];
   errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -228,9 +228,7 @@ validate.checkUpdatePassword = async (req, res, next) => {
       errors,
       title: "Manage Account",
       nav,
-      current_password,
       new_password,
-      confirm_password,
     });
     return;
   }

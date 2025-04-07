@@ -102,4 +102,38 @@ router.post(
   utilities.handleErrors(invController.processDeleteInv)
 );
 
+// Route to build Edit Classification view
+router.get(
+  "/classEdit/:classification_id",
+  utilities.checkLogin,
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildEditClassification)
+);
+
+// Route to process Edit Classification
+router.post(
+  "/classEdit",
+  utilities.checkLogin,
+  utilities.checkAdmin,
+  invValidate.classificationUpdateRules(),
+  invValidate.checkClassificationUpdateData,
+  utilities.handleErrors(invController.processUpdateClassification)
+);
+
+// Route to build Delete Classification view
+router.get(
+  "/classDelete/:classification_id",
+  utilities.checkLogin,
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildDeleteClassification)
+);
+
+// Route to process Delete Classification
+router.post(
+  "/classDelete",
+  utilities.checkLogin,
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.processDeleteClassification)
+);
+
 module.exports = router;
