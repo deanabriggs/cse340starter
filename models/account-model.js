@@ -52,29 +52,6 @@ async function checkPasswordMatch(account_email, account_password) {
   }
 }
 
-async function checkEmployee(account_email) {
-  try {
-    console.log("Checking employee status for email:", account_email);
-    const sql = "SELECT account_type FROM account WHERE account_email = $1";
-    const account = await pool.query(sql, [account_email]);
-    console.log("Query result:", account.rows[0]);
-
-    if (account.rowCount === 0) {
-      console.log("No account found");
-      return false;
-    }
-
-    const isEmployee =
-      account.rows[0].account_type === "Employee" ||
-      account.rows[0].account_type === "Admin";
-    console.log("Is employee?", isEmployee);
-    return isEmployee;
-  } catch (error) {
-    console.error("Error in checkEmployee:", error);
-    return false;
-  }
-}
-
 /*********************************************
  * Return account data using email address
  *********************************************/
@@ -153,7 +130,6 @@ module.exports = {
   registerAccount,
   checkExistingEmail,
   checkPasswordMatch,
-  checkEmployee,
   getAccountByEmail,
   updateAcctInfo,
   updateAcctPassword,
