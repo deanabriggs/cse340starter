@@ -1,6 +1,5 @@
 const invModel = require("../models/inventory-model");
 const jwt = require("jsonwebtoken");
-const { checkEmployee } = require("../models/account-model");
 require("dotenv").config();
 const Util = {};
 
